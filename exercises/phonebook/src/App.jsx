@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import { create, getAll, removePerson } from "./services/api";
+import { create, getAll, removePerson, updatePerson } from "./services/api";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -23,7 +23,18 @@ const App = () => {
     if (
       persons.some((e) => e.name.toLowerCase() == newPerson.name.toLowerCase())
     ) {
-      alert(`${newPerson.name} is already added to this phonebook`);
+      const personToUpdate = persons.find(
+        (person) => person.name === newPerson.name
+      );
+      console.log(`updating person's information: ${personToUpdate.name}`);
+      const newPersonInfo = { name: newPerson.name, number: newPerson.number };
+      updatePerson(personToUpdate.id, newPersonInfo).then((returnedPerson) =>
+        setPersons(
+          persons.map((person) =>
+            person.id === personToUpdate.id ? returnedPerson : person
+          )
+        )
+      );
     } else {
       const newObj = {
         name: newPerson.name,
