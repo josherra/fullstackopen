@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import { create, getAll } from "./services/api";
+import { create, getAll, removePerson } from "./services/api";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -28,7 +28,6 @@ const App = () => {
       const newObj = {
         name: newPerson.name,
         number: newPerson.number,
-        id: persons.length + 1,
       };
       create(newObj).then((response) => {
         setPersons(persons.concat(response));
@@ -40,6 +39,16 @@ const App = () => {
 
   const handleFilter = (e) => {
     setFilter(e.target.value);
+  };
+
+  const deletePerson = (id) => {
+    removePerson(id).then((data) => {
+      const personToDelete = persons.find((person) => person.id === id);
+      console.log(
+        `"${personToDelete.name}" has been removed. Their ID was ${id}`
+      );
+      setPersons(persons.filter((person) => person.id !== id));
+    });
   };
 
   const peopleToShow =
@@ -59,7 +68,7 @@ const App = () => {
         addNewPerson={addNewPerson}
       />
       <h2>Numbers</h2>
-      <Persons people={peopleToShow} />
+      <Persons people={peopleToShow} deletePerson={deletePerson} />
     </div>
   );
 };

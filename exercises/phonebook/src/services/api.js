@@ -11,3 +11,8 @@ export const create = (newObject) => {
   const req = axios.post(baseUrl, newObject);
   return req.then((response) => response.data);
 };
+
+export const removePerson = (id) => {
+  const req = axios.delete(`${baseUrl}/${id}`);
+  return req.then((response) => response.data);
+};
