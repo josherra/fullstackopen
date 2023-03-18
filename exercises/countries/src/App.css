@@ -1,0 +1,50 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 2px solid white;
+}
+
+input {
+  border-radius: 5px;
+  border-color: white;
+  height: 2rem;
+  padding: 0 0.5rem;
+}
+
+.container {
+  padding: 1rem;
+}
+
+.country {
+  border: 2px solid red;
+  margin-top: 1rem;
+}
+
+.country img {
+  width: 300px;
+}
+
+.search {
+  margin: 1em;
+  display: flex;
+}
+
+button {
+  margin-left: 1rem;
+  justify-self: center;
+  align-self: center;
+  color: black;
+  width: 5em;
+  height: 2em;
+  border: 2px solid rgb(132, 130, 155);
+  border-radius: 5px;
+  background-color: white;
+  transition: transform 0.5s;
+  cursor: pointer;
+}
+
+button:hover {
+  color: grey;
+  border: 2px solid grey;
+}

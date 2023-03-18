@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "number": "444-353-2222",
       "id": 2
     },
     {
@@ -16,13 +16,8 @@
       "id": 4
     },
     {
-      "name": "Josh Shmosh",
-      "number": "123-333-2121",
-      "id": 5
-    },
-    {
-      "name": "Adding another",
-      "number": "234444",
+      "name": "Sam Samantha",
+      "number": "333333333",
       "id": 6
     }
   ]
