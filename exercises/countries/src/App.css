@@ -2,41 +2,49 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  border: 2px solid white;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+input {
+  border-radius: 5px;
+  border-color: white;
+  height: 2rem;
+  padding: 0 0.5rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.container {
+  padding: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.country {
+  border: 2px solid red;
+  margin-top: 1rem;
 }
 
-.card {
-  padding: 2em;
+.country img {
+  width: 300px;
 }
 
-.read-the-docs {
-  color: #888;
+.search {
+  margin: 1em;
+  display: flex;
+}
+
+button {
+  margin-left: 1rem;
+  justify-self: center;
+  align-self: center;
+  color: black;
+  width: 5em;
+  height: 2em;
+  border: 2px solid rgb(132, 130, 155);
+  border-radius: 5px;
+  background-color: white;
+  transition: transform 0.5s;
+  cursor: pointer;
+}
+
+button:hover {
+  color: grey;
+  border: 2px solid grey;
 }

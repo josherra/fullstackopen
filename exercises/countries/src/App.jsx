@@ -1,35 +1,75 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import data from "../data.json";
+import { Country } from "./components/Country";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [countries, setCountries] = useState([]);
+  const [filter, setFilter] = useState("");
+
+  const handleFilter = (e) => {
+    if (e.target.value.length === 0) {
+      setCountries([]);
+    }
+
+    setFilter(e.target.value);
+  };
+
+  const clearFilter = () => {
+    setFilter("");
+    setCountries([]);
+  };
+
+  function sortCountries(data) {
+    let sortedData = data.sort((a, b) => {
+      const aName = a.name.common;
+      const bName = b.name.common;
+      return aName < bName ? -1 : aName > bName ? 1 : 0;
+    });
+
+    return sortedData;
+  }
+
+  useEffect(() => {
+    if (filter) {
+      axios.get("https://restcountries.com/v3.1/all").then((response) => {
+        const sorted = sortCountries(response.data);
+        setCountries(sorted);
+      });
+    }
+  }, [filter]);
+
+  const countriesToDisplay = filter
+    ? countries.filter((country) =>
+        country.name.common.toLowerCase().includes(filter.toLowerCase())
+      )
+    : countries;
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="container">
+      <h1>Countries of the World</h1>
+      <input
+        placeholder="Search for a country..."
+        onChange={handleFilter}
+        type="text"
+        value={filter}
+      />
+      <button onClick={clearFilter}>Clear</button>
+      {countriesToDisplay.length > 10 ? (
+        <p>Too many results. Please narrow your search</p>
+      ) : countriesToDisplay.length === 1 ? (
+        <Country country={countriesToDisplay[0]} />
+      ) : (
+        countriesToDisplay.map((country) => (
+          <div key={country.cca3} className="search">
+            <p>{country.name.common}</p>{" "}
+            <button onClick={() => setCountries([country])}>show</button>
+          </div>
+        ))
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
