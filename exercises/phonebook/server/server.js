@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 3001;
 
-const persons = [
+let persons = [
   {
     id: 1,
     name: "Arto Hellas",
@@ -50,9 +50,33 @@ app.get("/api/persons/:id", (req, res) => {
   }
 });
 
+app.delete("/api/persons/:id", (req, res) => {
+  const id = Number(req.params.id);
+  persons = persons.filter((person) => person.id !== id);
+
+  res.statusCode(204).end();
+});
+
 app.post("/api/persons", (req, res) => {
   const body = req.body;
-  console.log(body);
+  const exists = persons.find(
+    (person) => person.name.toLowerCase() === body.name.toLowerCase()
+  );
+
+  if (!body.name || !body.number) {
+    return res.status(400).json({ error: "Missing name or number" });
+  } else if (exists) {
+    return res
+      .status(400)
+      .json({ error: "Person already exists in the database" });
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(person);
   res.json(body);
 });
 
