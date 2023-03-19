@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 const PORT = 3001;
 
@@ -25,7 +26,19 @@ let persons = [
   },
 ];
 
+const generateID = () => {
+  const maxID = persons.length > 0 ? Math.max(...persons.map((n) => n.id)) : 0;
+  return maxID + 1;
+};
+
+morgan.token("person", function (req, res) {
+  return JSON.stringify(req.body);
+});
+
 app.use(express.json());
+app.use(
+  morgan(":method :url :status :res[content-length] :response-time ms :person")
+);
 
 app.get("/api/persons", (req, res) => {
   res.json(persons);
@@ -74,11 +87,18 @@ app.post("/api/persons", (req, res) => {
   const person = {
     name: body.name,
     number: body.number,
+    id: generateID(),
   };
 
   persons = persons.concat(person);
-  res.json(body);
+  res.json(person);
 });
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknown endpoint" });
+};
+
+app.use(unknownEndpoint);
 
 app.listen(PORT, () => {
   console.log(`Server has started on port ${PORT}.`);
